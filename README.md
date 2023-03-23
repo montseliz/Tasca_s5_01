@@ -56,7 +56,7 @@ Aquesta propietat, en funció del país de la sucursal, haurà d’indicar si é
 
 Aprofitant l’especificació JPA, hauràs de persistir l’entitat Sucursal a una base de dades MySql, seguint el patró MVC.
 
-    El consell és que SucursalDTO la facis servir al Controller y la Vista, i Sucursal al Repository. 
+    El consell és que SucursalDTO la facis servir al Controller i la Vista, i Sucursal al Repository. 
     La capa de serveis serà l’encarregada de fer la traducció entre les dues.
 
 Per a això, depenent del package principal, crearàs una estructura de packages, on ubicaràs les classes que necessitis:
