@@ -43,14 +43,6 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
         return modelMapper.map(branchOfficeDTO, BranchOffice.class);
     }
 
-    /**
-     * Submètode per validar l'id del BranchOffice en el mètode deleteBranchOffice.
-     */
-    public BranchOffice validateId(int id) {
-
-        return branchOfficeRepository.findById(id).orElseThrow(() -> new BranchOfficeNotFoundException("Branch Office not found"));
-    }
-
     @Override
     public BranchOfficeDTO getBranchOfficeById(int id) {
 
@@ -85,7 +77,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
 
     @Override
     public void deleteBranchOffice(int id) {
-        BranchOffice branchOfficeToDelete = validateId(id);
-        branchOfficeRepository.delete(branchOfficeToDelete);
+        BranchOfficeDTO branchOfficeToDelete = getBranchOfficeById(id);
+        branchOfficeRepository.delete(convertToEntity(branchOfficeToDelete));
     }
 }

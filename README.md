@@ -142,7 +142,7 @@ Tenim una entitat anomenada FlorEntity, que disposa de les següents propietats:
 - String nomFlor
 - String paisFlor
 
-També tenim una DTO anomenada FlorDTO, que tindrà les mateixes propietats que l’entitat Sucursal, afegint-ne una:
+També tenim una DTO anomenada FlorDTO, que tindrà les mateixes propietats que l’entitat FlorEntity, afegint-ne una:
 
 - String tipusFlor
 
