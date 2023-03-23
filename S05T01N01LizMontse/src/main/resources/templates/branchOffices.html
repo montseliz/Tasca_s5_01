@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang=”en” xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Branch Offices List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" style="margin-left: 20px" href="#">Branch Offices Management System</a>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" style="display: inline-block" th:href="@{/branchOffices/getAll}">Branch Offices List</a>
+                    <a class="nav-link" style="display: inline-block" th:href="@{/branchOffices/create}">Create a Branch Office</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container my-2">
+        <br>
+        <div class="row">
+        <h1>Branch Offices List</h1>
+            <br>
+            <br>
+            <br>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>COUNTRY</th>
+                <th>EU / NOT EU</th>
+                <th>ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bo : ${branchOffices}">
+                <td th:text="${bo.id}">ID</td>
+                <td th:text="${bo.name}">NAME</td>
+                <td th:text="${bo.country}">COUNTRY</td>
+                <td th:text="${bo.type}">EU / NOT EU</td>
+                <td>
+                    <a th:href="@{/branchOffices/getOne/{id}(id=${bo.id})}" class="btn btn-success">View</a>
+                    <a th:href="@{/branchOffices/edit/{id}(id=${bo.id})}" class="btn btn-primary">Edit</a>
+                    <a th:href="@{/branchOffices/delete/{id}(id=${bo.id})}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</body>
+</html>

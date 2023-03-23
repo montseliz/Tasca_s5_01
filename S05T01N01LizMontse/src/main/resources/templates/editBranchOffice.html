@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang=”en” xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit a Branch Office</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    </head>
+<body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" style="margin-left: 20px" href="#">Branch Offices Management System</a>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" style="display: inline-block" th:href="@{/branchOffices/getAll}">Branch Offices List</a>
+                    <a class="nav-link" style="display: inline-block" th:href="@{/branchOffices/create}">Create a Branch Office</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container my-2">
+        <br>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+                <br>
+            <h1 style="margin-left: 137px">Edit a Branch Office</h1>
+                <div class="card-body">
+                    <form th:action="@{/branchOffices/update}" th:object="${editedBranchOffice}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <div th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
+                            <p>Error, please try again</p>
+                        </div>
+                        <div class="form-group">
+                            <label> <strong> Name:</strong> </label>
+                            <br>
+                            <input type="text" name="name" th:field="*{name}" class="form-control" placeholder="Introduce the name of the Branch Office"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('name')}">
+                                <p th:errors="*{name}" class="text-danger">Error</p>
+                            </span>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label> <strong> Country:</strong> </label>
+                            <br>
+                            <input type="text" country="country" th:field="*{country}" class="form-control" placeholder="Introduce the country of the Branch Office"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('country')}">
+                                <p th:errors="*{country}" class="text-danger">Error</p>
+                            </span>
+                        </div>
+                        <br>
+                        <div class="box-footer">
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
