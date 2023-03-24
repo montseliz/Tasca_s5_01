@@ -184,7 +184,10 @@ Com pots veure, a l’arxiu application.properties, hauràs de configurar que el
 
 ### Recursos utilitzats
 
-- 
+- https://www.baeldung.com/global-error-handler-in-a-spring-rest-api 
+- https://java.hotexamples.com/examples/org.springframework.web.bind/MethodArgumentNotValidException/getBindingResult/java-methodargumentnotvalidexception-getbindingresult-method-examples.html 
+- https://www.baeldung.com/spring-rest-openapi-documentation 
+- https://javadoc.io/doc/io.swagger.core.v3/swagger-annotations/latest/index.html 
 
 
 ## Nivell 3

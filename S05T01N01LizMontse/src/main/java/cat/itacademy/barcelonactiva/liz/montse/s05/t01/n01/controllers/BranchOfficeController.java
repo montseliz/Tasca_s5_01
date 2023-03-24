@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * Anotació @Controller per manipular sol·licituds HTTP i retornar una vista en format HTML.
+ * Anotació @Controller per manipular sol·licituds HTTP en una API MVC tradicional
+ * i retornar una vista en format HTML.
  */
 @Controller
 @RequestMapping("/branchOffices")
 public class BranchOfficeController {
 
-    private IBranchOfficeService branchOfficeService;
+    private final IBranchOfficeService branchOfficeService;
     @Autowired
     public BranchOfficeController(IBranchOfficeService branchOfficeService) {
         super();

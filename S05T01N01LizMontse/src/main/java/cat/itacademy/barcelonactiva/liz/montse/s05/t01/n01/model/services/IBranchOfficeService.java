@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface IBranchOfficeService {
 
-    public BranchOfficeDTO getBranchOfficeById(int id);
-    public List<BranchOfficeDTO> getAllBranchOffices();
-    public BranchOfficeDTO createBranchOffice(BranchOfficeDTO branchOfficeDTO);
-    public BranchOfficeDTO updateBranchOffice(int id, BranchOfficeDTO branchOfficeDTO);
-    public void deleteBranchOffice(int id);
+    BranchOfficeDTO getBranchOfficeById(int id);
+    List<BranchOfficeDTO> getAllBranchOffices();
+    void createBranchOffice(BranchOfficeDTO branchOfficeDTO);
+    void updateBranchOffice(int id, BranchOfficeDTO branchOfficeDTO);
+    void deleteBranchOffice(int id);
 
 }

@@ -47,7 +47,7 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
     public BranchOfficeDTO getBranchOfficeById(int id) {
 
         return branchOfficeRepository.findById(id).map(this::convertToDTO)
-                        .orElseThrow(() -> new BranchOfficeNotFoundException("Branch Office not found"));
+                        .orElseThrow(() -> new BranchOfficeNotFoundException("Branch Office with ID " + id + " not found"));
     }
 
     @Override
@@ -58,21 +58,17 @@ public class BranchOfficeServiceImpl implements IBranchOfficeService {
     }
 
     @Override
-    public BranchOfficeDTO createBranchOffice(BranchOfficeDTO branchOfficeDTO) {
+    public void createBranchOffice(BranchOfficeDTO branchOfficeDTO) {
         BranchOffice branchOfficeConverted = convertToEntity(branchOfficeDTO);
-        BranchOffice newBranchOffice = branchOfficeRepository.save(branchOfficeConverted);
-
-        return convertToDTO(newBranchOffice);
+        branchOfficeRepository.save(branchOfficeConverted);
     }
 
     @Override
-    public BranchOfficeDTO updateBranchOffice(int id, BranchOfficeDTO branchOfficeDTO) {
+    public void updateBranchOffice(int id, BranchOfficeDTO branchOfficeDTO) {
         BranchOfficeDTO branchOfficeToUpdate = getBranchOfficeById(id);
         branchOfficeToUpdate.setName(branchOfficeDTO.getName());
         branchOfficeToUpdate.setCountry(branchOfficeDTO.getCountry());
         branchOfficeRepository.save(convertToEntity(branchOfficeToUpdate));
-
-        return branchOfficeToUpdate;
     }
 
     @Override
