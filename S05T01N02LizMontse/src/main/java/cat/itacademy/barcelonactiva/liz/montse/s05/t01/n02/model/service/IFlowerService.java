@@ -11,7 +11,4 @@ public interface IFlowerService {
     void editFlower(int id, FlowerDTO flowerDTO);
     void removeFlower(int id);
 
-
-
-
 }
