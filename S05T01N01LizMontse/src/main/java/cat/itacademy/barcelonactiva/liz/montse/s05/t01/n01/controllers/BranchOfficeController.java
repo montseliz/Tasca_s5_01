@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Anotació @Controller per manipular sol·licituds HTTP en una API MVC tradicional
@@ -94,9 +93,8 @@ public class BranchOfficeController {
      * Eliminar una branch office per id.
      */
     @GetMapping("delete/{id}")
-    public String deleteBranchOffice(@PathVariable int id, RedirectAttributes redirectAttributes) {
+    public String deleteBranchOffice(@PathVariable int id) {
         branchOfficeService.deleteBranchOffice(id);
-        redirectAttributes.addFlashAttribute("message", "Branch Office deleted successfully");
         return "redirect:/branchOffices";
     }
 
