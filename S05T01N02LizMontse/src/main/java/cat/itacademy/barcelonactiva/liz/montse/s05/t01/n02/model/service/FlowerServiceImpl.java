@@ -40,11 +40,11 @@ public class FlowerServiceImpl implements IFlowerService {
 
     @Override
     public List<FlowerDTO> getListFlowers() {
-        List<Flower> flowersFromDB = flowerRepository.findAll();
-        if (flowersFromDB.isEmpty()) {
+
+        if (flowerRepository.findAll().isEmpty()) {
             throw new FlowerNotFoundException("There are no flowers introduced in the database");
         } else {
-            return flowersFromDB.stream().map(this::convertToDTO).collect(Collectors.toList());
+            return flowerRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
         }
     }
 

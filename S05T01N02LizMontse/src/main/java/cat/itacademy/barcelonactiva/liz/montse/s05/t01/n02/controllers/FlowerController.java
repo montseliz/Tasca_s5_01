@@ -2,6 +2,7 @@ package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.controllers;
 
 import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto.FlowerDTO;
 import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto.Message;
+import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.exception.FlowerNotFoundException;
 import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.service.IFlowerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -46,7 +47,7 @@ public class FlowerController {
     @Operation(summary = "Create a new flower", description = "Adds a new flower into the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Flower created correctly", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = FlowerDTO.class))}),
+                    schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "406", description = "Flower values not valid", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error while creating the flower", content = {@Content(mediaType = "application/json",
@@ -66,7 +67,7 @@ public class FlowerController {
     @Operation(summary = "Update a flower", description = "Updates an existing flower in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Flower updated correctly", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = FlowerDTO.class))}),
+                    schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "404", description = "Flower not found by id", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "406", description = "Flower updated values not valid", content = {@Content(mediaType = "application/json",
@@ -79,6 +80,8 @@ public class FlowerController {
         try {
             flowerService.editFlower(id, flowerDTO);
             return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(),"Flower updated correctly", request.getDescription(false)), HttpStatus.OK);
+        } catch (FlowerNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new Exception("Internal Server Error while updating the flower", e.getCause());
         }
@@ -98,6 +101,8 @@ public class FlowerController {
         try {
             flowerService.removeFlower(id);
             return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(), "Flower removed successfully", request.getDescription(false)), HttpStatus.OK);
+        } catch (FlowerNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new Exception("Internal Server Error while deleting the flower", e.getCause());
         }
@@ -117,6 +122,8 @@ public class FlowerController {
     public ResponseEntity<FlowerDTO> getOneFlower(@Parameter(description = "The id of the flower to retrieve") @PathVariable int id) throws Exception {
         try {
             return new ResponseEntity<>(flowerService.getFlowerById(id), HttpStatus.OK);
+        } catch (FlowerNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new Exception("Internal Server Error while retrieving the flower", e.getCause());
         }
@@ -134,8 +141,11 @@ public class FlowerController {
                     schema = @Schema(implementation = Message.class))})})
 
     public ResponseEntity<List<FlowerDTO>> getAllFlowers() throws Exception {
+
         try {
             return new ResponseEntity<>(flowerService.getListFlowers(), HttpStatus.OK);
+        } catch (FlowerNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new Exception("Internal Server Error while retrieving the flowers from the database", e.getCause());
         }
