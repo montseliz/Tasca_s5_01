@@ -15,9 +15,7 @@ public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
     private String name;
-    @Column
     private String country;
 
     public Flower(String name, String country) {
