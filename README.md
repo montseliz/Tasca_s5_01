@@ -258,5 +258,12 @@ Per a provar el nivell 3, hauràs de tenir en marxa l’API del nivell 2. No tin
 
 ### Recursos utilitzats
 
-- 
+- https://www.baeldung.com/spring-5-webclient 
+- https://www.baeldung.com/webflux-webclient-parameters 
+- https://www.baeldung.com/spring-webflux 
+- https://www.baeldung.com/spring-webflux-errors
+- https://howtodoinjava.com/spring-webflux/webclient-get-post-example/ 
+- https://www.learninjava.com/spring-webclient-get-post-put-delete-example/ 
+- https://howtodoinjava.com/spring-webflux/spring-webflux-tutorial/
+
 
