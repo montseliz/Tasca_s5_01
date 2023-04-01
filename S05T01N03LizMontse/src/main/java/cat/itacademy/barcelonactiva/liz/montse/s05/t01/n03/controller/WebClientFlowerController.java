@@ -1,9 +1,9 @@
-package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.controllers;
+package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.controller;
 
-import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto.FlowerDTO;
-import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto.Message;
-import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.exception.FlowerNotFoundException;
-import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.service.IFlowerService;
+import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.model.dto.FlowerDTO;
+import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.model.dto.Message;
+import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.model.exception.FlowerNotFoundException;
+import cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.model.service.WebClientFlowerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -15,33 +15,31 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
-import java.util.List;
 
-/**
- * Anotació @RestController per manipular sol·licituds HTTP en una API RESTful i retornar
- * objectes que es serialitzen automàticament en JSON/XML.
- */
 @RestController
-@RequestMapping ("/flowers")
+@RequestMapping("/clientFlowers")
 @Validated
-@Tag(name = "Flowers Management System", description = "API operations pertaining to flowers MySQL database")
-public class FlowerController {
+@Tag(name = "Flowers WebClient API", description = "Reactive API with WebClient to make HTTP requests to the Flowers Management System server API")
+public class WebClientFlowerController {
 
-    private IFlowerService flowerService;
+    private WebClientFlowerService flowerService;
 
     @Autowired
-    public FlowerController(IFlowerService flowerService) {
+    public WebClientFlowerController(WebClientFlowerService flowerService) {
         super();
         this.flowerService = flowerService;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new flower", description = "Adds a new flower into the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Flower created correctly", content = {@Content(mediaType = "application/json",
@@ -51,12 +49,13 @@ public class FlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while creating the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<Message> addFlower(@Valid @RequestBody FlowerDTO flowerDTO, WebRequest request) throws Exception {
+    public ResponseEntity<Mono<Message>> addFlower(@Valid @RequestBody FlowerDTO flowerDTO, ServerWebExchange exchange) throws Exception {
         try {
-            flowerService.createFlower(flowerDTO);
-            return new ResponseEntity<>(new Message(HttpStatus.CREATED.value(), new Date(), "Flower created and added successfully into the database", request.getDescription(false)), HttpStatus.CREATED);
+            return new ResponseEntity<>(flowerService.createFlower(flowerDTO)
+                    .map(flower -> new Message(HttpStatus.CREATED.value(), new Date(), "Flower created and added successfully into the database", exchange.getRequest().getURI().toString())),
+                    HttpStatus.CREATED);
         } catch (Exception e) {
-            throw new Exception("Internal Server Error while creating the flower", e.getCause());
+            throw new Exception( "Internal Server Error while creating the flower", e.getCause());
         }
     }
 
@@ -72,11 +71,12 @@ public class FlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while updating the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<Message> updateFlower(@Parameter(description = "The id of the flower to be updated") @PathVariable int id,
-                                                @Valid @RequestBody FlowerDTO flowerDTO, WebRequest request) throws Exception {
+    public ResponseEntity<Mono<Message>> updateFlower(@Parameter(description = "The id of the flower to be updated") @PathVariable int id,
+                                                      @Valid @RequestBody FlowerDTO flowerDTO, ServerWebExchange exchange) throws Exception {
         try {
-            flowerService.editFlower(id, flowerDTO);
-            return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(),"Flower updated correctly", request.getDescription(false)), HttpStatus.OK);
+            return new ResponseEntity<>(flowerService.editFlower(id, flowerDTO)
+                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower updated correctly", exchange.getRequest().getURI().toString())),
+                    HttpStatus.OK);
         } catch (FlowerNotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -93,14 +93,16 @@ public class FlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while deleting the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<Message> deleteFlower(@Parameter(description = "The id of the flower to be removed") @PathVariable int id, WebRequest request) throws Exception {
+    public ResponseEntity<Mono<Message>> deleteFlower(@Parameter(description = "The id of the flower to be removed") @PathVariable int id,
+                                                      ServerWebExchange exchange) throws Exception {
         try {
-            flowerService.removeFlower(id);
-            return new ResponseEntity<>(new Message(HttpStatus.OK.value(), new Date(), "Flower removed successfully", request.getDescription(false)), HttpStatus.OK);
+            return new ResponseEntity<>(flowerService.removeFlower(id)
+                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower removed successfully", exchange.getRequest().getURI().toString())),
+                    HttpStatus.OK);
         } catch (FlowerNotFoundException e) {
             throw e;
         } catch (Exception e) {
-            throw new Exception("Internal Server Error while deleting the flower", e.getCause());
+            throw new Exception("Internal Server Error while updating the flower", e.getCause());
         }
     }
 
@@ -114,7 +116,8 @@ public class FlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while retrieving the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<FlowerDTO> getOneFlower(@Parameter(description = "The id of the flower to retrieve") @PathVariable int id) throws Exception {
+    public ResponseEntity<Mono<FlowerDTO>> getOneFlower(@Parameter(description = "The id of the flower to retrieve") @PathVariable int id) throws Exception {
+
         try {
             return new ResponseEntity<>(flowerService.getFlowerById(id), HttpStatus.OK);
         } catch (FlowerNotFoundException e) {
@@ -134,7 +137,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while retrieving the flowers from the database", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<List<FlowerDTO>> getAllFlowers() throws Exception {
+    public ResponseEntity<Flux<FlowerDTO>> getAllFlowers() throws Exception {
 
         try {
             return new ResponseEntity<>(flowerService.getListFlowers(), HttpStatus.OK);
@@ -143,6 +146,6 @@ public class FlowerController {
         } catch (Exception e) {
             throw new Exception("Internal Server Error while retrieving the flowers from the database", e.getCause());
         }
-    }
 
+    }
 }

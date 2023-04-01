@@ -1,4 +1,4 @@
-package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto;
+package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n03.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
