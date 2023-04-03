@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 public class Flower {
 
     private int id;
+
     private String name;
+
     private String country;
 
     public Flower(String name, String country) {

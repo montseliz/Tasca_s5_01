@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
@@ -28,10 +30,10 @@ import java.util.Date;
 @RestController
 @RequestMapping("/clientFlowers")
 @Validated
-@Tag(name = "Flowers WebClient API", description = "Reactive API with WebClient to make HTTP requests to the Flowers Management System server API")
+@Tag(name = "Flowers WebClient", description = "Reactive API with WebClient to make HTTP requests to the Flowers Management System server API")
 public class WebClientFlowerController {
 
-    private WebClientFlowerService flowerService;
+    private final WebClientFlowerService flowerService;
 
     @Autowired
     public WebClientFlowerController(WebClientFlowerService flowerService) {
@@ -39,7 +41,7 @@ public class WebClientFlowerController {
         this.flowerService = flowerService;
     }
 
-    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new flower", description = "Adds a new flower into the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Flower created correctly", content = {@Content(mediaType = "application/json",
@@ -50,6 +52,7 @@ public class WebClientFlowerController {
                     schema = @Schema(implementation = Message.class))})})
 
     public ResponseEntity<Mono<Message>> addFlower(@Valid @RequestBody FlowerDTO flowerDTO, ServerWebExchange exchange) throws Exception {
+
         try {
             return new ResponseEntity<>(flowerService.createFlower(flowerDTO)
                     .map(flower -> new Message(HttpStatus.CREATED.value(), new Date(), "Flower created and added successfully into the database", exchange.getRequest().getURI().toString())),
@@ -59,7 +62,7 @@ public class WebClientFlowerController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Update a flower", description = "Updates an existing flower in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Flower updated correctly", content = {@Content(mediaType = "application/json",
@@ -84,10 +87,11 @@ public class WebClientFlowerController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Delete a flower", description = "Deletes an existing flower from the database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Flower removed successfully"),
+            @ApiResponse(responseCode = "200", description = "Flower removed successfully", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "404", description = "Flower not found by id", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error while deleting the flower", content = {@Content(mediaType = "application/json",
@@ -102,11 +106,11 @@ public class WebClientFlowerController {
         } catch (FlowerNotFoundException e) {
             throw e;
         } catch (Exception e) {
-            throw new Exception("Internal Server Error while updating the flower", e.getCause());
+            throw new Exception("Internal Server Error while deleting the flower", e.getCause());
         }
     }
 
-    @GetMapping("/getOne/{id}")
+    @GetMapping(value = "/getOne/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get a flower by its ID", description = "Retrieves a flower from the database by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Flower retrieved successfully", content = {@Content(mediaType = "application/json",
@@ -127,7 +131,7 @@ public class WebClientFlowerController {
         }
     }
 
-    @GetMapping("/getAll")
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all flowers", description = "Returns a list with all the flowers stored in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of flowers retrieved successfully", content = {@Content(mediaType = "application/json",

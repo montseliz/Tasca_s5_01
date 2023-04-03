@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class WebClientFlowerServiceImpl implements WebClientFlowerService {
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     @Autowired
     public WebClientFlowerServiceImpl(WebClient webClient) {
