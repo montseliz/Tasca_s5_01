@@ -15,7 +15,9 @@ public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
+
     private String country;
 
     public Flower(String name, String country) {
@@ -23,5 +25,4 @@ public class Flower {
         this.country = country;
     }
 
-    
 }

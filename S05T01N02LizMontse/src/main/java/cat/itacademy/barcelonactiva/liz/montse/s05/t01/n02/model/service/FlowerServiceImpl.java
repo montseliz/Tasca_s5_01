@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class FlowerServiceImpl implements IFlowerService {
 
-    private IFlowerRepository flowerRepository;
+    private final IFlowerRepository flowerRepository;
 
     @Autowired
     public FlowerServiceImpl(IFlowerRepository flowerRepository) {

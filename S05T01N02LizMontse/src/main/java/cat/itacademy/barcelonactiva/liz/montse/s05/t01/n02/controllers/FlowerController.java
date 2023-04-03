@@ -33,7 +33,7 @@ import java.util.List;
 @Tag(name = "Flowers Management System", description = "API operations pertaining to flowers MySQL database")
 public class FlowerController {
 
-    private IFlowerService flowerService;
+    private final IFlowerService flowerService;
 
     @Autowired
     public FlowerController(IFlowerService flowerService) {
@@ -41,7 +41,7 @@ public class FlowerController {
         this.flowerService = flowerService;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Create a new flower", description = "Adds a new flower into the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Flower created correctly", content = {@Content(mediaType = "application/json",
@@ -60,7 +60,7 @@ public class FlowerController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Update a flower", description = "Updates an existing flower in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Flower updated correctly", content = {@Content(mediaType = "application/json",
@@ -84,10 +84,11 @@ public class FlowerController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}", produces = "application/json")
     @Operation(summary = "Delete a flower", description = "Deletes an existing flower from the database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Flower removed successfully"),
+            @ApiResponse(responseCode = "200", description = "Flower removed successfully", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "404", description = "Flower not found by id", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error while deleting the flower", content = {@Content(mediaType = "application/json",
@@ -104,7 +105,7 @@ public class FlowerController {
         }
     }
 
-    @GetMapping("/getOne/{id}")
+    @GetMapping(value = "/getOne/{id}", produces = "application/json")
     @Operation(summary = "Get a flower by its ID", description = "Retrieves a flower from the database by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Flower retrieved successfully", content = {@Content(mediaType = "application/json",
@@ -124,7 +125,7 @@ public class FlowerController {
         }
     }
 
-    @GetMapping("/getAll")
+    @GetMapping(value = "/getAll", produces = "application/json")
     @Operation(summary = "Get all flowers", description = "Returns a list with all the flowers stored in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of flowers retrieved successfully", content = {@Content(mediaType = "application/json",
