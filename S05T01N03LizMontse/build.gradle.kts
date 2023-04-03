@@ -23,14 +23,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	testImplementation("org.framework.boot:spring-boot-starter-test")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 
+	//Perquè funcioni swagger habilitar aquesta dependència:
 	//implementation("org.springframework.boot:spring-boot-starter-web")
-	//testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4") //OPEN API AMB SWAGGER PER SPRING MVC
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4") //SWAGGER OPEN API
 
 }
 

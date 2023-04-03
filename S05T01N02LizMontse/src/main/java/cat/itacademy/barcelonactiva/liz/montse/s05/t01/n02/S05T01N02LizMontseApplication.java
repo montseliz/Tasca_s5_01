@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Flowers Management System API", version = "1.0.0"))
+@OpenAPIDefinition(info = @Info(title = "Flowers Management System API", version = "1.0.0", description = "Documentation RESTful API"))
 public class S05T01N02LizMontseApplication {
 
 	@Bean
