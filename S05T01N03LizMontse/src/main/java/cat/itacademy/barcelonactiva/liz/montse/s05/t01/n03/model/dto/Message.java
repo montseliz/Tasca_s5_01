@@ -14,6 +14,5 @@ public class Message {
     private int statusCode;
     private Date timestamp;
     private String textMessage;
-    private String description;
 
 }

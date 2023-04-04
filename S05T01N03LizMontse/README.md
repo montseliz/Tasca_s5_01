@@ -11,6 +11,7 @@
 ![add.PNG](captures%2Fadd.PNG)
 ![add2.PNG](captures%2Fadd2.PNG)
 ![add3.PNG](captures%2Fadd3.PNG)
+![add4.PNG](captures%2Fadd4.PNG)
 
 ### Request PUT:
 

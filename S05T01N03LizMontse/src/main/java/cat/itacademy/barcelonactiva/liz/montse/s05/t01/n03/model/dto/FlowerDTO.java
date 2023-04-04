@@ -32,7 +32,6 @@ public class FlowerDTO {
             "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
             "Slovenia", "Spain", "Sweden");
 
-
     public FlowerDTO(String name, String country) {
         this.name = name;
         this.country = country;

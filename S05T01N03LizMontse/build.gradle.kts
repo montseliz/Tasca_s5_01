@@ -27,8 +27,8 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("io.projectreactor:reactor-test")
 
-	//Perquè funcioni swagger habilitar aquesta dependència:
-	//implementation("org.springframework.boot:spring-boot-starter-web")
+	//Perquè funcioni swagger:
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4") //SWAGGER OPEN API
 
 }

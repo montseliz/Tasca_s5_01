@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -49,11 +48,11 @@ public class WebClientFlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while creating the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<Mono<Message>> addFlower(@Valid @RequestBody FlowerDTO flowerDTO, ServerWebExchange exchange) throws Exception {
+    public ResponseEntity<Mono<Message>> addFlower(@Valid @RequestBody FlowerDTO flowerDTO) throws Exception {
 
         try {
             return new ResponseEntity<>(flowerService.createFlower(flowerDTO)
-                    .map(flower -> new Message(HttpStatus.CREATED.value(), new Date(), "Flower created and added successfully into the database", exchange.getRequest().getURI().toString())),
+                    .map(flower -> new Message(HttpStatus.CREATED.value(), new Date(), "Flower created and added successfully into the database")),
                     HttpStatus.CREATED);
         } catch (Exception e) {
             throw new Exception( "Internal Server Error while creating the flower", e.getCause());
@@ -73,10 +72,10 @@ public class WebClientFlowerController {
                     schema = @Schema(implementation = Message.class))})})
 
     public ResponseEntity<Mono<Message>> updateFlower(@Parameter(description = "The id of the flower to be updated") @PathVariable int id,
-                                                      @Valid @RequestBody FlowerDTO flowerDTO, ServerWebExchange exchange) throws Exception {
+                                                      @Valid @RequestBody FlowerDTO flowerDTO) throws Exception {
         try {
             return new ResponseEntity<>(flowerService.editFlower(id, flowerDTO)
-                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower updated correctly", exchange.getRequest().getURI().toString())),
+                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower updated correctly")),
                     HttpStatus.OK);
         } catch (FlowerNotFoundException e) {
             throw e;
@@ -95,11 +94,11 @@ public class WebClientFlowerController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error while deleting the flower", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Message.class))})})
 
-    public ResponseEntity<Mono<Message>> deleteFlower(@Parameter(description = "The id of the flower to be removed") @PathVariable int id,
-                                                      ServerWebExchange exchange) throws Exception {
+    public ResponseEntity<Mono<Message>> deleteFlower(@Parameter(description = "The id of the flower to be removed") @PathVariable int id) throws Exception {
+
         try {
             return new ResponseEntity<>(flowerService.removeFlower(id)
-                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower removed successfully", exchange.getRequest().getURI().toString())),
+                    .map(flower -> new Message(HttpStatus.OK.value(), new Date(), "Flower removed successfully")),
                     HttpStatus.OK);
         } catch (FlowerNotFoundException e) {
             throw e;
