@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.liz.montse.s05.t01.n02.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class FlowerDTO {
     @Schema(description = "To indicate if the country belongs to the European Union or not", example = "EU")
     private String type;
 
+    @JsonIgnore
     private List<String> EUcountries = List.of("Austria", "Belgium", "Bulgaria", "Croatia","Republic of Cyprus",
             "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy",
             "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
